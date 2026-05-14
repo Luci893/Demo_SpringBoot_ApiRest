@@ -3,7 +3,9 @@ package com.example.demo_springboot_apirest.services;
 // Interface genérica que declarará todos los métodos necesarios para el CRUD
 
 import com.example.demo_springboot_apirest.entities.Base;
+import org.springframework.data.domain.Page;
 
+import org.springframework.data.domain.Pageable;
 import java.io.Serializable;
 import java.util.List;
 
@@ -14,6 +16,10 @@ public interface BaseService <E extends Base, ID extends Serializable> {
 
     // Trae una lista de todos los elementos
     public List<E> findAll() throws Exception;
+
+    // Metodo de Paginación: nos permitira devolvernos datos en forma de paginas o en porciones
+    // pequeñas en vez de devolvernos el contenido completo. Agiliza el tiempo de respuesta.
+    public Page<E> findAll(Pageable pageable) throws Exception;
 
     // Trae un elemento en base a su id
     public E findById(ID id) throws Exception;

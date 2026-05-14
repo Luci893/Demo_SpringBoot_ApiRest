@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.data.domain.Pageable;
 import java.io.Serializable;
 
 public abstract class BaseControllerImpl <E extends Base, S extends BaseServiceImpl<E,Long>> implements BaseController<E, Long>{
@@ -28,6 +29,18 @@ public abstract class BaseControllerImpl <E extends Base, S extends BaseServiceI
         try{
             // Devuelve lista de elementos con un status OK si hay en la BD.
             return ResponseEntity.status(HttpStatus.OK).body(servicio.findAll());
+        } catch (Exception e) {
+            // Si no hay elementos retorna status No encontrado con un mensaje en formato JSON
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error por favor intente mas tarde.\"}");
+        }
+    }
+
+    @GetMapping("/paged")
+    // Trae todas los elementos en formato JSON
+    public ResponseEntity<?> getAll(Pageable pageable) {
+        try{
+            // Devuelve lista de elementos con un status OK si hay en la BD.
+            return ResponseEntity.status(HttpStatus.OK).body(servicio.findAll(pageable));
         } catch (Exception e) {
             // Si no hay elementos retorna status No encontrado con un mensaje en formato JSON
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error por favor intente mas tarde.\"}");

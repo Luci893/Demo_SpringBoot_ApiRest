@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -28,10 +29,12 @@ public class Persona extends Base {
     private String dni;
 
     // Relaciones
+    @NotAudited
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name= "fk_domicilio")
     private Domicilio domicilio;
 
+    @NotAudited
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinTable(
             name = "persona_libro",
